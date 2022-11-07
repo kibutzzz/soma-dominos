@@ -59,9 +59,9 @@ public class DominoTree {
 
   public int sumTotal() {
     if(parent == null) {
-      return current.getA();
+      return current.getTop();
     }
-    return current.getA() + parent.sumTotal();
+    return current.getTop() + parent.sumTotal();
   }
 
 

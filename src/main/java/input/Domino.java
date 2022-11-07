@@ -1,20 +1,19 @@
 package input;
 
 public class Domino implements Cloneable {
-  private int a;
-  private int b;
+  private int top;
+  private int bottom;
   private boolean shouldFlip = false;
-  private boolean isExcluded = false;
   private boolean shouldSkip = false;
 
-  public Domino(int a, int b) {
-    this.b = a;
-    this.a = b;
+  public Domino(int top, int bottom) {
+    this.bottom = top;
+    this.top = bottom;
     setOrder();
   }
 
   public int diff() {
-    return a - b;
+    return top - bottom;
   }
 
   @Override
@@ -24,22 +23,22 @@ public class Domino implements Cloneable {
 
     Domino domino = (Domino) o;
 
-    if (a != domino.a) return false;
-    return b == domino.b;
+    if (top != domino.top) return false;
+    return bottom == domino.bottom;
   }
 
 
   @Override
   public String toString() {
-    return a + " " + b;
+    return top + " " + bottom;
   }
 
-  public int getA() {
-    return a;
+  public int getTop() {
+    return top;
   }
 
-  public int getB() {
-    return b;
+  public int getBottom() {
+    return bottom;
   }
 
   public void setShouldFlip(boolean shouldFlip) {
@@ -47,9 +46,9 @@ public class Domino implements Cloneable {
   }
 
   public void flip() {
-    final var aux = a;
-    a = b;
-    b = aux;
+    final var aux = top;
+    top = bottom;
+    bottom = aux;
   }
 
   public boolean shouldSkip() {
@@ -70,7 +69,7 @@ public class Domino implements Cloneable {
   }
 
   public void setOrder() {
-    if (a > b) {
+    if (top > bottom) {
       flip();
     }
   }

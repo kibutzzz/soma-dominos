@@ -70,7 +70,7 @@ public class Solution {
   }
 
   private static int sumAllExcept(List<Domino> dominoes, Domino excluded) {
-    return dominoes.stream().filter(domino -> !domino.equals(excluded)).mapToInt(Domino::getB).sum();
+    return dominoes.stream().filter(domino -> !domino.equals(excluded)).mapToInt(Domino::getBottom).sum();
   }
 
   private static void flipMarked(List<Domino> dominoes, Domino excluded) {
