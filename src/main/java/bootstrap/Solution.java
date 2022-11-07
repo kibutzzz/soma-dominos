@@ -15,7 +15,12 @@ public class Solution {
         .map(DominoReader::new)
         .forEach(reader -> {
           final var problems = reader.readProblems();
-          problems.forEach(Solution::solve);
+          problems.forEach(problem -> {
+            final var size = problem.getDominoes().size();
+            final var initialTime = System.nanoTime();
+            solve(problem);
+            System.out.printf("%dµs - tamanho %d%n%n", (System.nanoTime() - initialTime)/1000, size);
+          });
         });
 
   }
@@ -78,8 +83,6 @@ public class Solution {
   }
 
   private static Result tryToSolve(List<Domino> dominoes, int totalDiff, Domino excluded, Result result) {
-
-
     //para cada domino: Tenta resolver sem poder girar tal domino.
     //isso serve para casos em que girar um a um não resolve o problema.
     for (int i = -1; i < dominoes.size(); i++) {
