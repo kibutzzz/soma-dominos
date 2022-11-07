@@ -6,7 +6,6 @@ import java.util.List;
 
 public class DominoTree {
 
-  private static int level = 0;
 
   private DominoTree positive;
   private DominoTree negative;
@@ -27,7 +26,7 @@ public class DominoTree {
   }
 
   public void addNext(Domino next) throws CloneNotSupportedException {
-    if (positive != null || negative != null) {
+    if (positive != null) {
       negative.addNext(next);
       positive.addNext(next);
     } else {

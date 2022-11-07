@@ -28,12 +28,6 @@ public class Domino implements Cloneable {
     return b == domino.b;
   }
 
-  @Override
-  public int hashCode() {
-    int result = a;
-    result = 31 * result + b;
-    return result;
-  }
 
   @Override
   public String toString() {
@@ -52,18 +46,10 @@ public class Domino implements Cloneable {
     this.shouldFlip = shouldFlip;
   }
 
-  public void setExcluded(boolean excluded) {
-    isExcluded = excluded;
-  }
-
   public void flip() {
     final var aux = a;
     a = b;
     b = aux;
-  }
-
-  public boolean isExcluded() {
-    return isExcluded;
   }
 
   public boolean shouldSkip() {

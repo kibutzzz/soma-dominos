@@ -19,13 +19,8 @@ public class Result {
     return solved;
   }
 
-
   public Result() {
     this(null, -1, false);
-  }
-
-  public Result(int totalSum) {
-    this(null, totalSum);
   }
 
   public Result(Domino removed, int totalSum) {

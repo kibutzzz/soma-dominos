@@ -1,17 +1,16 @@
 package bootstrap;
 
-import input.Problem;
 import input.Domino;
 import input.DominoReader;
+import input.Problem;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.function.ToIntFunction;
 
 public class Solution {
 
   public static void main(String[] args) {
     //Lê todos os arquivos e resolve caso a caso
+    final var initial = System.currentTimeMillis();
     List.of("../in", "../in1", "../in2", "../in3")
         .stream()
         .map(DominoReader::new)
@@ -20,21 +19,18 @@ public class Solution {
           final var problems = reader.readProblems();
           problems.forEach(Solution::solve);
         });
-  }
 
-  private static int sumAll(List<Domino> dominoes, ToIntFunction<Domino> mapping) {
-    return dominoes.stream().mapToInt(mapping).sum();
+    System.out.println(System.currentTimeMillis() - initial + " ms");
   }
 
   private static void solve(Problem problem) {
     // ordena a lista de dominos lidos de acordo com a diferenca
     // entre o valor de cima e de baixo de cada domino
+    problem.sort();
     final var dominoes = problem.getDominoes();
-    dominoes.sort(Comparator.comparing(Domino::diff));
 
     //calcula a diferenca total entre cada os dominos de cima e de baixo para os calculos
-    var totalDifference =
-        sumAll(dominoes, Domino::getB) - sumAll(dominoes, Domino::getA);
+    var totalDifference = sumAllDiff(dominoes, null);
     var result = new Result();
     //tenta resolver sem remover nenhum domino
     result = tryToSolve(dominoes, totalDifference, null, result);
@@ -47,7 +43,7 @@ public class Solution {
         resetAllDominoes(dominoes);
 
         //calcula a diferenca dos dominos que não estão excluidos
-        totalDifference = sumAll(dominoes, Domino::getB) - sumAll(dominoes, Domino::getA) + excluded.diff();
+        totalDifference = sumAllDiff(dominoes, excluded);
 
         //tenta resolver. Se resolver
         var newResult = tryToSolve(dominoes, totalDifference, excluded, result);
@@ -65,6 +61,12 @@ public class Solution {
     }
 
     System.out.println(outputString);
+  }
+
+  private static int sumAllDiff(List<Domino> dominoes, Domino excluded) {
+    return dominoes.stream()
+        .filter(domino -> !domino.equals(excluded))
+        .map(domino -> -domino.diff()).reduce(0, Integer::sum);
   }
 
   private static int sumAllExcept(List<Domino> dominoes, Domino excluded) {
