@@ -33,21 +33,27 @@ public class Solution {
     dominoes.sort(Comparator.comparing(Domino::diff));
 
     //calcula a diferenca total entre cada os dominos de cima e de baixo para os calculos
-    var totalDiff =
+    var totalDifference =
         sumAll(dominoes, Domino::getB) - sumAll(dominoes, Domino::getA);
     var result = new Result();
     //tenta resolver sem remover nenhum domino
-    result = tryToSolve(dominoes, totalDiff, null, result);
+    result = tryToSolve(dominoes, totalDifference, null, result);
     var outputString = "";
     if (result.isSolved()) {
       outputString = String.format("%d nenhum dominó descartado", result.getTotalSum());
     } else {
+      //tenta resolver removendo dominos
       for (final var excluded : dominoes) {
         resetAllDominoes(dominoes);
-        totalDiff = sumAll(dominoes, Domino::getB) - sumAll(dominoes, Domino::getA) + excluded.diff();
 
-        result = tryToSolve(dominoes, totalDiff, excluded, result);
-        if (result.isSolved()) {
+        //calcula a diferenca dos dominos que não estão excluidos
+        totalDifference = sumAll(dominoes, Domino::getB) - sumAll(dominoes, Domino::getA) + excluded.diff();
+
+        //tenta resolver. Se resolver
+        var newResult = tryToSolve(dominoes, totalDifference, excluded, result);
+        if (newResult.isSolved()) {
+          //se o novo resultado for melhor, substitui
+          result = newResult.getTotalSum() > result.getTotalSum() ? newResult : result;
           outputString = String.format("%d descartado o dominó %s", result.getTotalSum(), result.getRemoved().toString());
         }
       }
@@ -55,10 +61,10 @@ public class Solution {
 
     }
     if (!result.isSolved()) {
-      System.out.println("impossivel");
-    } else {
-      System.out.println(outputString);
+      outputString = "impossivel";
     }
+
+    System.out.println(outputString);
   }
 
   private static int sumAllExcept(List<Domino> dominoes, Domino excluded) {
@@ -82,7 +88,6 @@ public class Solution {
       //resolve uma vez sem pular
       if (i >= 0) {
         dominoes.get(i).setShouldSkip(true);
-
       }
 
       //soma dos valores que foram girados
