@@ -37,7 +37,7 @@ public class Domino implements Cloneable {
 
   @Override
   public String toString() {
-    return a + " " + b + "{" + diff() + "}";
+    return a + " " + b;
   }
 
   public int getA() {

@@ -12,9 +12,7 @@ public class Solution {
 
   public static void main(String[] args) {
     //Lê todos os arquivos e resolve caso a caso
-    List.of("../in"
-        ,        "../in1", "../in2", "../in3"
-    )
+    List.of("../in", "../in1", "../in2", "../in3")
         .stream()
         .map(DominoReader::new)
         .forEach(reader -> {
@@ -44,19 +42,13 @@ public class Solution {
     if (result.isSolved()) {
       outputString = String.format("%d nenhum dominó descartado", result.getTotalSum());
     } else {
-//      var previousSum = 0;
       for (final var excluded : dominoes) {
         resetAllDominoes(dominoes);
-//        excluded.setExcluded(true);
         totalDiff = sumAll(dominoes, Domino::getB) - sumAll(dominoes, Domino::getA) + excluded.diff();
 
         result = tryToSolve(dominoes, totalDiff, excluded, result);
         if (result.isSolved()) {
-//          if (result.getTotalSum() > previousSum) {
-          outputString = String.format("%d resolveu removendo %s", result.getTotalSum(), excluded.toString());
-//            previousSum = result.getTotalSum();
-//          }
-
+          outputString = String.format("%d descartado o dominó %s", result.getTotalSum(), result.getRemoved().toString());
         }
       }
 
@@ -111,7 +103,7 @@ public class Solution {
             final var sum = sumAllExcept(dominoes, excluded);
             // se o resultado calculado atual é maior q o anterior, substitui
             if (sum > result.getTotalSum()) {
-              result = new Result(domino, sum);
+              result = new Result(excluded, sum);
             }
             break;
           }
