@@ -1,4 +1,4 @@
-package bootstrap;
+package bootstrap.alternative;
 
 import input.DominoReader;
 import input.Problem;
