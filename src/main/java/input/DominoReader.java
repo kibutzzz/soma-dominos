@@ -9,10 +9,8 @@ import java.util.List;
 public class DominoReader {
 
   private InputStreamReader inputStreamReader;
-  private String fileName;
 
   public DominoReader(String fileName) {
-    this.fileName = fileName;
     inputStreamReader = new InputStreamReader(DominoReader.class.getResourceAsStream(fileName));
   }
 
@@ -43,9 +41,5 @@ public class DominoReader {
     }
 
     return cases;
-  }
-
-  public String getFileName() {
-    return fileName;
   }
 }

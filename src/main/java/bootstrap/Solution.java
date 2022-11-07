@@ -10,17 +10,14 @@ public class Solution {
 
   public static void main(String[] args) {
     //Lê todos os arquivos e resolve caso a caso
-    final var initial = System.currentTimeMillis();
     List.of("../in", "../in1", "../in2", "../in3")
         .stream()
         .map(DominoReader::new)
         .forEach(reader -> {
-          System.out.println(reader.getFileName());
           final var problems = reader.readProblems();
           problems.forEach(Solution::solve);
         });
 
-    System.out.println(System.currentTimeMillis() - initial + " ms");
   }
 
   private static void solve(Problem problem) {
